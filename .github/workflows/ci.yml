@@ -1,4 +1,4 @@
-# Nome 
+# Nome do teste
 name: End-to-end tests 🧪
 # Quando vai disparar, no caso sempre que tiver push
 on: [push]

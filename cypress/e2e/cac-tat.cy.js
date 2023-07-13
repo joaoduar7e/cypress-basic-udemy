@@ -135,8 +135,40 @@ describe('Central de atendimento', () => {
       cy.get('#file-upload').selectFile('@fileExample')
     })
 
-    it.only('Testar links', () => {
+    it('Testar links', () => {
       cy.get('a').invoke('removeAttr', 'target').click()
       cy.contains('CAC TAT - Política de privacidade')
     })
+
+    Cypress._.times('5', () => {
+      it('Message error', () => {
+        cy.clock()
+        cy.get('.button').click()
+        cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
+      })
+    })
+
+    it('Invoke Message error', () => {
+      cy.get('.error').invoke('show').should('be.visible')
+      cy.get('.error').invoke('hide').should('not.be.visible')
+      cy.get('#firstName').invoke('hide')
+    })
+
+    it('Invoke Message sucess', () => {
+      cy.request({
+        method: 'GET',
+        url: 'https://cac-tat.s3.eu-central-1.amazonaws.com/index.html',
+      }).then((response) => {
+        expect(response.status).to.equal(200)
+        expect(response.statusText).to.equal('OK')
+        expect(response.body).to.include('CAC TAT')
+      })
+    })
+
+    it.only('Invoke Message error', () => {
+      cy.get('#cat').invoke('show').should('be.visible')
+    })
+
 })
